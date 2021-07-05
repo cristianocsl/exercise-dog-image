@@ -9,6 +9,7 @@ class App extends Component {
     this.state = {
       link: '',
       name: '',
+      dogsList: [],
       loading: true,
     };
 
@@ -16,6 +17,7 @@ class App extends Component {
     this.renderPhoto = this.renderPhoto.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.newDog = this.newDog(this);
   }
 
   componentDidMount() {
@@ -32,9 +34,10 @@ class App extends Component {
 
   componentDidUpdate() {
     console.log('atualizou');
-    const { link } = this.state;
+    const { link, dogsList } = this.state;
     localStorage.setItem('link', link);
-    const dog = link.split('/')[4];
+    localStorage.setItem('dogsList', dogsList);
+    // const dog = link.split('/')[4];
     // alert(`Raça: ${dog}`); // o alerta dispara toda vez que digita uma letra
   }
 
@@ -48,6 +51,13 @@ class App extends Component {
     const { name } = this.state;
     alert(`O nome dado foi ${name}`);
     event.preventDefault();
+  }
+
+  newDog(dogsList) {
+    this.setState((prevState) => ({
+      ...prevState,
+      dogsList: [...prevState.dogsList, dogsList],
+    }));
   }
 
   async fetchDogImages() {
